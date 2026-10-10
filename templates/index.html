@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5f2">
+  <title>Sentinel — Transaction Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-symbol"><i></i><i></i><i></i></span><span>sentinel<span class="brand-light">.</span></span></a>
+    <div class="side-caption">WORKSPACE</div>
+    <nav>
+      <a class="nav-item active" href="#overview"><span class="nav-glyph">◫</span> Overview</a>
+      <a class="nav-item" href="#review"><span class="nav-glyph">↗</span> Transaction review</a>
+      <a class="nav-item" href="#about"><span class="nav-glyph">◎</span> About this tool</a>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="privacy-card"><div class="privacy-check">✓</div><div><strong>Private by design</strong><p>This demo does not store your submitted transaction details.</p></div></div>
+    <div class="user-strip"><div class="user-avatar">RO</div><div><strong>Risk operations</strong><small>Analyst workspace</small></div><span class="more">•••</span></div>
+  </aside>
+
+  <main class="main" id="overview">
+    <header class="topbar"><div class="crumb">Workspace <span>/</span> <strong>Overview</strong></div><div class="topbar-meta"><span class="pulse"></span><span id="model-status">Connecting to model…</span><span class="top-divider"></span><span id="current-date"></span></div></header>
+    <section class="hero">
+      <div class="hero-copy"><div class="eyebrow"><span></span> FRAUD PREVENTION WORKSPACE</div><h1>Every transaction<br>deserves a <em>closer look.</em></h1><p>Review the movement of funds and get a model-assisted risk assessment. Thoughtful tools for decisions that matter.</p></div>
+      <div class="hero-art" aria-hidden="true"><div class="art-ring ring-1"></div><div class="art-ring ring-2"></div><div class="art-ring ring-3"></div><div class="art-center"><span>✓</span></div><i class="art-dot dot-1"></i><i class="art-dot dot-2"></i><i class="art-dot dot-3"></i><span class="art-label">TRANSACTION<br>INTELLIGENCE</span></div>
+    </section>
+
+    <section class="summary-grid">
+      <article class="summary-card"><div class="summary-head"><span>Assessment engine</span><span class="summary-icon violet">✳</span></div><div class="summary-value">Fraud detection <span class="engine-tag" id="engine-tag">CHECKING</span></div><div class="summary-foot">Your trained ML model · Flask API</div></article>
+      <article class="summary-card"><div class="summary-head"><span>Signals considered</span><span class="summary-icon blue">⌁</span></div><div class="summary-value">05 <small>features</small></div><div class="summary-foot">Amount and account balance movement</div></article>
+      <article class="summary-card"><div class="summary-head"><span>Checks this session</span><span class="summary-icon green">◷</span></div><div class="summary-value"><span id="check-count">0</span> <small>assessments</small></div><div class="summary-foot">A local count for this browser session</div></article>
+    </section>
+
+    <section class="content-grid" id="review">
+      <article class="panel input-panel">
+        <div class="panel-heading"><div><div class="section-label">NEW ASSESSMENT</div><h2>Transaction details</h2><p>Enter the values exactly as they appear in your dataset.</p></div><div class="step-mark">01 <span>/ 02</span></div></div>
+        <form id="fraud-form" novalidate>
+          <div class="field-heading"><span class="field-icon">↗</span><div><strong>Transaction amount</strong><small>The amount being transferred</small></div></div>
+          <div class="field"><label for="amount">Amount <b>*</b></label><div class="input-shell"><span class="currency">₹</span><input id="amount" name="amount" type="number" min="0" step="any" placeholder="e.g. 2,500.00" required><span class="unit">INR</span></div><small class="hint">Use the same currency and scale used during model training.</small></div>
+          <div class="field-heading balance-heading"><span class="field-icon">⇄</span><div><strong>Account balances</strong><small>Before and after the transaction</small></div></div>
+          <div class="field-grid">
+            <div class="field"><label for="oldbalanceOrg">Sender balance before <b>*</b></label><div class="input-shell"><span class="currency">₹</span><input id="oldbalanceOrg" name="oldbalanceOrg" type="number" min="0" step="any" placeholder="e.g. 12,000" required></div></div>
+            <div class="field"><label for="newbalanceOrig">Sender balance after <b>*</b></label><div class="input-shell"><span class="currency">₹</span><input id="newbalanceOrig" name="newbalanceOrig" type="number" min="0" step="any" placeholder="e.g. 9,500" required></div></div>
+            <div class="field"><label for="oldbalanceDest">Receiver balance before <b>*</b></label><div class="input-shell"><span class="currency">₹</span><input id="oldbalanceDest" name="oldbalanceDest" type="number" min="0" step="any" placeholder="e.g. 4,000" required></div></div>
+            <div class="field"><label for="newbalanceDest">Receiver balance after <b>*</b></label><div class="input-shell"><span class="currency">₹</span><input id="newbalanceDest" name="newbalanceDest" type="number" min="0" step="any" placeholder="e.g. 6,500" required></div></div>
+          </div>
+          <div class="note"><span>i</span><p>Accurate inputs matter. The model evaluates these five values only; it does not see any other transaction context.</p></div>
+          <div class="form-actions"><button type="button" class="button button-quiet" id="sample-btn">Fill sample values</button><button type="submit" class="button button-primary" id="submit-btn"><span id="submit-label">Assess transaction</span><span class="button-arrow">↗</span></button></div>
+          <p class="form-error" id="form-error" role="alert"></p>
+        </form>
+      </article>
+
+      <aside class="panel result-panel">
+        <div class="result-heading"><span class="result-mark">✳</span><span>ASSESSMENT SUMMARY</span><span class="live-label"><i></i> LIVE</span></div>
+        <div id="empty-state" class="empty-state"><div class="empty-art"><div class="empty-orbit orbit-a"></div><div class="empty-orbit orbit-b"></div><div class="empty-disc">↗</div><span class="spark spark-one">✦</span><span class="spark spark-two">·</span></div><h3>Your result will live here.</h3><p>Once you run an assessment, the model’s response will appear in this space.</p><div class="mini-steps"><div><span>1</span> Add transaction details</div><div><span>2</span> Review the model output</div></div></div>
+        <div id="result-state" class="result-state hidden">
+          <div id="result-icon" class="result-icon">✓</div><div class="result-overline" id="result-overline">MODEL ASSESSMENT</div><h3 id="result-title">Assessment complete</h3><p id="result-message"></p>
+          <div class="risk-meter-wrap"><div class="risk-meter-label"><span>Model fraud score</span><strong id="risk-value">Unavailable</strong></div><div class="risk-track"><div id="risk-bar" class="risk-bar"></div></div><small id="risk-note">Probability is only shown if the model supports predict_proba().</small></div>
+          <div class="result-details"><div><span>Prediction</span><strong id="prediction-value">—</strong></div><div><span>Model response</span><strong>Received</strong></div></div>
+          <button type="button" id="reset-btn" class="button button-quiet reset-button">Run another assessment <span>↻</span></button>
+          <p class="disclaimer">This is a model prediction, not a confirmed finding. Review flagged transactions before taking action.</p>
+        </div>
+      </aside>
+    </section>
+    <section class="about-strip" id="about"><div class="about-symbol">✳</div><div><strong>Built to support human judgement.</strong><p>Sentinel provides a model output to help with review. It should be used alongside your own checks, not as the only basis for a financial decision.</p></div><span class="about-version">MODEL-ASSISTED REVIEW</span></section>
+    <footer><span>Sentinel <span class="footer-dot">·</span> Fraud detection demo</span><span>Designed for clarity. Built for review.</span></footer>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
